@@ -43,7 +43,7 @@ export default class App extends Vue {
 
   private mounted() {
     this.change();
-    window.setInterval(this.change, 3000);
+    window.setInterval(this.change, 3500);
   }
 
   private change() {
