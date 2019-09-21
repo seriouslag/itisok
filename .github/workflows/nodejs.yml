@@ -23,10 +23,10 @@ jobs:
         yarn install --frozen-lockfile
         yarn build
     - name: Archive Production Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: dist
-          path: dist
+      uses: actions/upload-artifact@master
+      with:
+        name: dist
+        path: dist
   deploy:
     name: Deploy
     needs: build
@@ -44,6 +44,3 @@ jobs:
           args: deploy --only hosting:prod
         env:
           FIREBASE_TOKEN: ${{ secrets.fb_key }}
-        
-      env:
-        CI: true
