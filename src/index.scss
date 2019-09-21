@@ -1,14 +1,16 @@
 .slide-fade-enter-active,
 .slide-fade-leave-active {
-  transition: all .5s ease;
+  transition: all .7s ease-in-out;
 }
 
 .slide-fade-enter {
-  transform: translateX(-1em);
-  opacity: 0;
+  transform: translateX(2em);
+  opacity: .0;
+  z-index: 2;
 }
 
 .slide-fade-leave-to {
   opacity: 0;
-  transform: translateX(1em);
+  z-index: 1;
+  transform: translateX(-2em);
 }
