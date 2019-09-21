@@ -1,9 +1,15 @@
 import Vue from 'vue';
 import App from './App.vue';
-import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 
-new Vue({
-  render: (h) => h(App),
-}).$mount('#app');
+import './index.scss';
+
+import { itisok } from './itisok';
+
+const AppRoot = Vue.extend(App);
+const root: any = document.getElementById('app');
+const app = new AppRoot({
+  el: root,
+  propsData: { itisok },
+});

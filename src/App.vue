@@ -1,29 +1,60 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="app" ref="app">
+    <overlay />
+    <div class='content'>
+      <transition name="slide-fade" mode="out-in" v-if="message">
+        <hello-world
+          :message="message"
+          :key="message"
+        />
+      </transition>
+    </div>
+    <the-footer />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import HelloWorld from './components/HelloWorld.vue';
+import Overlay from './components/Overlay.vue';
+import Footer from './components/Footer.vue';
+import { Okay } from './itisok';
 
 @Component({
   components: {
     HelloWorld,
+    Overlay,
+    TheFooter: Footer,
   },
 })
-export default class App extends Vue {}
-</script>
+export default class App extends Vue {
+  public $refs!: {
+    app: HTMLDivElement;
+  };
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  @Prop({
+    required: true,
+    type: Array,
+    default: () => ([]),
+  })
+  private itisok!: Okay[];
+
+  private message = '';
+
+  private mounted() {
+    this.change();
+    window.setInterval(this.change, 3000);
+  }
+
+  private change() {
+    const next = Math.floor(Math.random() * this.itisok.length);
+    const ok = this.itisok[next];
+    this.$refs.app.style.backgroundColor = ok.background;
+    this.message = ok.message;
+  }
+
+  get length() {
+    return this.itisok.length;
+  }
 }
-</style>
+</script>
