@@ -17,11 +17,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: yarn install, build, and test
+    - name: yarn install
       uses: Borales/actions-yarn@1.1.0
-      run: |
-        yarn install --frozen-lockfile
-        yarn build
+      args: install --frozen-lockfile
+    - name: yarn build
+      uses: Borales/actions-yarn@1.1.0
+      args: build
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
       with:
