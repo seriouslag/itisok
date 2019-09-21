@@ -63,22 +63,6 @@
         flex-direction: column;
       }
 
-      @media (min-width: 481px) {
-        .footer {
-          flex-direction: row;
-        }
-
-        .footer .item {
-          border-right: 1px solid #dbdbdb;
-          padding-top: 0;
-          padding-bottom: 0;
-        }
-
-        .link {
-          width: auto;
-        }
-      }
-
       .footer .item {
         flex: 1 1 auto;
         flex-direction: column;
@@ -110,6 +94,22 @@
 
       .link:hover {
         background-color: #dbdbdb;
+      }
+
+      @media (min-width: 481px) {
+        .footer {
+          flex-direction: row;
+        }
+
+        .footer .item {
+          border-right: 1px solid #dbdbdb;
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+
+        .link {
+          width: auto;
+        }
       }
     </style>
   </head>
