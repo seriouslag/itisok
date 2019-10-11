@@ -67,6 +67,18 @@ const itisok: Okay[] = [
     message: 'to not be ok.',
     background: '#24b1c9',
   },
+  {
+    message: 'to change.',
+    background: '#95ff80',
+  },
+  {
+    message: 'to make mistakes.',
+    background: '#d4f2a0',
+  },
+  {
+    message: 'to ask for help.',
+    background: '#fcbdff',
+  },
 ];
 
 export { itisok };
