@@ -1,11 +1,16 @@
 <template>
-  <div class="app" ref="app">
+  <div
+    class="app"
+    ref="app"
+    :style="{backgroundColor: ok.background}"
+    v-if="ok"
+  >
     <overlay />
-    <div class='content'>
-      <transition name="slide-fade" mode="out-in" v-if="message">
+    <div class='content' v-if="ok.message">
+      <transition name="slide-fade" mode="out-in" >
         <hello-world
-          :message="message"
-          :key="message"
+          :message="ok.message"
+          :key="ok.message"
         />
       </transition>
     </div>
@@ -39,21 +44,22 @@ export default class App extends Vue {
   })
   private itisok!: Okay[];
 
-  private message = '';
+  private ok: Okay|null = null;
+
+  private beforeMount() {
+    this.change();
+  }
 
   private mounted() {
-    this.change();
     window.setInterval(this.change, 3500);
   }
 
-  private change() {
-    const next = Math.floor(Math.random() * this.itisok.length);
-    const ok = this.itisok[next];
-    this.$refs.app.style.backgroundColor = ok.background;
-    this.message = ok.message;
+  private change(): void {
+    const next = Math.floor(Math.random() * this.length);
+    this.ok = this.itisok[next];
   }
 
-  get length() {
+  get length(): number {
     return this.itisok.length;
   }
 }
