@@ -6,14 +6,14 @@
     v-if="ok"
   >
     <overlay />
-    <div class='content' v-if="ok.message">
+    <main class="content" v-if="ok.message">
       <transition name="slide-fade" mode="out-in" >
         <hello-world
           :message="ok.message"
           :key="ok.message"
         />
       </transition>
-    </div>
+    </main>
     <the-footer />
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="hello" aria-live="polite">
+  <div class="hello" role="marquee" aria-live="polite">
     <span>It is ok</span>
     <span v-if="message">
       {{message}}
