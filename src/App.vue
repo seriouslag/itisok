@@ -2,17 +2,19 @@
   <div
     class="app"
     ref="app"
-    :style="{backgroundColor: ok.background}"
-    v-if="ok"
+    :style="{backgroundColor: background}"
   >
     <overlay />
-    <main class="content" v-if="ok.message">
-      <transition name="slide-fade" mode="out-in" >
-        <hello-world
-          :message="ok.message"
-          :key="ok.message"
-        />
-      </transition>
+    <main class="content">
+      <div role="marquee" aria-live="polite">
+        <transition name="slide-fade" mode="out-in">
+          <hello-world
+            :message="message"
+            :key="message"
+            v-if="message"
+          />
+        </transition>
+      </div>
     </main>
     <the-footer />
   </div>
@@ -61,6 +63,14 @@ export default class App extends Vue {
 
   get length(): number {
     return this.itisok.length;
+  }
+
+  get message(): string|undefined {
+    return this.ok?.message;
+  }
+
+  get background(): string {
+    return this.ok?.background ?? 'purple';
   }
 }
 </script>
