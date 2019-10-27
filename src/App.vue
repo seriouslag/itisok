@@ -70,7 +70,13 @@ export default class App extends Vue {
     const next = Math.floor(Math.random() * this.length);
     this.lastOk = this.ok;
     this.ok = this.itisok[next];
-    this.fadeTheme();
+    if (!document.hidden) {
+      this.fadeTheme();
+    } else {
+      window.clearInterval(this.fadeThemeInterval);
+      this.fadeThemeInterval = undefined;
+      this.fadeIndex = 0;
+    }
   }
 
   private fadeTheme() {
@@ -88,7 +94,7 @@ export default class App extends Vue {
 
   private handleChangeThemeInterval(fadeArray: string[], index: number) {
     this.changeTheme(fadeArray[index]);
-    if (index === (fadeArray.length - 1)) {
+    if (index === (fadeArray.length - 1) || document.hidden) {
       window.clearInterval(this.fadeThemeInterval);
       this.fadeThemeInterval = undefined;
       this.fadeIndex = 0;
