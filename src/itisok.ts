@@ -105,7 +105,7 @@ const itisok: Okay[] = [
   },
   {
     message: 'to try and fail.',
-    background: '#f7ff59',
+    background: '#d9dbb2',
   },
 ];
 
