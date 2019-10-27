@@ -52,6 +52,7 @@ export default class App extends Vue {
   private fadeThemeInterval: number|undefined;
   private fadeIndex = 0;
 
+  private initThemeColor: string = '';
   private metaTheme: HTMLMetaElement|null|undefined;
 
   private beforeMount() {
@@ -61,6 +62,8 @@ export default class App extends Vue {
   private mounted() {
     window.setInterval(this.change, 3500);
     this.metaTheme = (document.querySelector('meta[name=theme-color]') as HTMLMetaElement) ?? null;
+    this.initThemeColor = this.metaTheme.getAttribute('content') ?? '';
+    this.fadeTheme();
   }
 
   private change(): void {
@@ -71,10 +74,10 @@ export default class App extends Vue {
   }
 
   private fadeTheme() {
-    if (!this.lastOk?.background || !this.ok?.background) {
+    if ((!this.lastOk?.background && this.initThemeColor === '') || !this.ok?.background) {
       return;
     }
-    const fadeArray = this.gradient(this.lastOk.background, this.ok.background, 10);
+    const fadeArray = this.gradient(this.lastOk?.background ?? this.initThemeColor, this.ok.background, 10);
     this.startChangeThemeInterval(fadeArray);
   }
 
