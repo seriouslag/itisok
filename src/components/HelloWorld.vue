@@ -8,10 +8,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { defineComponent } from 'vue';
 
-@Component
-export default class HelloWorld extends Vue {
-  @Prop() private message!: string;
-}
+export default defineComponent({
+  name: 'HelloWorld',
+  components: {
+  },
+  props: {
+    message: {
+      type: String,
+      required: true,
+    },
+  },
+  setup () {
+    return {
+    };
+  },
+});
 </script>

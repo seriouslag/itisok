@@ -2,7 +2,7 @@
   <div
     class="app"
     ref="app"
-    :style="{backgroundColor: background}"
+    :style="{ backgroundColor: background }"
   >
     <overlay />
     <main class="content">
@@ -21,134 +21,30 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
 import HelloWorld from './components/HelloWorld.vue';
 import Overlay from './components/Overlay.vue';
 import Footer from './components/Footer.vue';
-import { Okay } from './itisok';
+import { Okay, itisok } from './itisok';
+import { PropType, onMounted, onBeforeMount, defineComponent, ref, Ref, computed } from 'vue';
+import { backgroundTheme } from './logic/backgroundTheme';
 
-@Component({
+export default defineComponent({
+  name: 'App',
   components: {
     HelloWorld,
     Overlay,
     TheFooter: Footer,
   },
-})
-export default class App extends Vue {
-  public $refs!: {
-    app: HTMLDivElement;
-  };
-
-  @Prop({
-    required: true,
-    type: Array,
-    default: () => ([]),
-  })
-  private itisok!: Okay[];
-
-  private lastOk: Okay|null = null;
-  private ok: Okay|null = null;
-
-  private fadeThemeInterval: number|undefined;
-  private fadeIndex = 0;
-
-  private initThemeColor: string = '';
-  private metaTheme: HTMLMetaElement|null|undefined;
-
-  private beforeMount () {
-    this.change();
-  }
-
-  private mounted () {
-    window.setInterval(this.change, 3500);
-    this.metaTheme = (document.querySelector('meta[name=theme-color]') as HTMLMetaElement) ?? null;
-    this.initThemeColor = this.metaTheme.getAttribute('content') ?? '';
-    this.fadeTheme();
-  }
-
-  private change (): void {
-    const next = Math.floor(Math.random() * this.length);
-    this.lastOk = this.ok;
-    this.ok = this.itisok[next];
-    if (!document.hidden) {
-      this.fadeTheme();
-    } else {
-      window.clearInterval(this.fadeThemeInterval);
-      this.fadeThemeInterval = undefined;
-      this.fadeIndex = 0;
-    }
-  }
-
-  private fadeTheme () {
-    if ((!this.lastOk?.background && this.initThemeColor === '') || !this.ok?.background) {
-      return;
-    }
-    const fadeArray = this.gradient(this.lastOk?.background ?? this.initThemeColor, this.ok.background, 10);
-    this.startChangeThemeInterval(fadeArray);
-  }
-
-  private startChangeThemeInterval (fadeArray: string[]) {
-    this.fadeIndex = 0;
-    this.fadeThemeInterval = window.setInterval(() => this.handleChangeThemeInterval(fadeArray, this.fadeIndex), 40);
-  }
-
-  private handleChangeThemeInterval (fadeArray: string[], index: number) {
-    this.changeTheme(fadeArray[index]);
-    if (index === (fadeArray.length - 1) || document.hidden) {
-      window.clearInterval(this.fadeThemeInterval);
-      this.fadeThemeInterval = undefined;
-      this.fadeIndex = 0;
-    }
-  }
-
-  private changeTheme (color: string) {
-    if (this.metaTheme) {
-      this.metaTheme.setAttribute('content', color);
-      this.fadeIndex += 1;
-    }
-  }
-
-  private gradient (startColor: string, endColor: string, steps: number) {
-    const start = {
-      Hex: startColor,
-      R: parseInt(startColor.slice(1, 3), 16),
-      G: parseInt(startColor.slice(3, 5), 16),
-      B: parseInt(startColor.slice(5, 7), 16),
+  props: {
+    itisok: {
+      type: Array as PropType<Okay[]>,
+      required: true,
+    },
+  },
+  setup (props, ctx) {
+    return {
+      ...backgroundTheme(props.itisok),
     };
-    const end = {
-      Hex: endColor,
-      R: parseInt(endColor.slice(1, 3), 16),
-      G: parseInt(endColor.slice(3, 5), 16),
-      B: parseInt(endColor.slice(5, 7), 16),
-    };
-    const diffR = end.R - start.R;
-    const diffG = end.G - start.G;
-    const diffB = end.B - start.B;
-
-    const stepsHex: string[] = new Array();
-    const stepsR: number[] = new Array();
-    const stepsG: number[] = new Array();
-    const stepsB: number[] = new Array();
-
-    for (let i = 0; i <= steps; i++) {
-      stepsR[i] = start.R + ((diffR / steps) * i);
-      stepsG[i] = start.G + ((diffG / steps) * i);
-      stepsB[i] = start.B + ((diffB / steps) * i);
-      stepsHex[i] = `#${Math.round(stepsR[i]).toString(16)}${Math.round(stepsG[i]).toString(16)}${Math.round(stepsB[i]).toString(16)}`;
-    }
-    return stepsHex;
-  }
-
-  get length (): number {
-    return this.itisok.length;
-  }
-
-  get message (): string {
-    return this.ok?.message ?? '';
-  }
-
-  get background (): string {
-    return this.ok?.background ?? 'purple';
-  }
-}
+  },
+});
 </script>

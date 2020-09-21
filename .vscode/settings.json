@@ -29,5 +29,8 @@
   "vetur.validation.template": true,
   "vetur.format.scriptInitialIndent": false,
   "vetur.format.options.tabSize": 2,
-  "vetur.format.options.useTabs": false
+  "vetur.format.options.useTabs": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

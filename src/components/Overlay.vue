@@ -4,8 +4,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { defineComponent } from 'vue';
 
-@Component
-export default class Overlay extends Vue {}
+export default defineComponent({
+  name: 'Overlay',
+  components: {
+  },
+  props: {
+  },
+  setup () {
+    return {
+    };
+  },
+});
 </script>
