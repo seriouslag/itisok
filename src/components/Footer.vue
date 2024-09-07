@@ -20,7 +20,7 @@
       <div class="item">
         <a
           class="link"
-          href="http://www.suicidepreventionlifeline.org/GetHelp/LifelineChat.aspx"
+          href="https://chat.988lifeline.org"
         >
           Chat
         </a>
